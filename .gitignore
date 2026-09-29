@@ -1,5 +1,6 @@
 # --- Secrets / env locaux (ne jamais committer) ---
 .env.local
+/.env
 .env.*.local
 *.local.php
 

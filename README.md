@@ -29,8 +29,25 @@ KANBAN.md      Suivi des tâches par sprint
 
 ## Démarrage
 
-> 🚧 En cours de mise en place (Sprint 0). Les instructions d'installation
-> et de lancement (`docker compose up`) seront ajoutées au fil des sprints.
+Prérequis : Docker avec Docker Compose.
+
+```bash
+docker compose up -d --build
+```
+
+| Service    | Rôle                              | Accès                   |
+|------------|-----------------------------------|-------------------------|
+| `database` | PostgreSQL 16                     | interne (port 5432)     |
+| `backend`  | PHP 8.3 FPM + Composer (Symfony)  | via nginx               |
+| `nginx`    | Serveur web de l'API              | http://localhost:8080   |
+| `frontend` | Node 22, serveur de dev Vite      | http://localhost:5173   |
+
+Les identifiants Postgres valent `app` par défaut ; ils se surchargent avec
+les variables `POSTGRES_DB`, `POSTGRES_USER` et `POSTGRES_PASSWORD` (fichier
+`.env` à la racine, ignoré par git).
+
+> 🚧 Sprint 0 en cours : Symfony (#3) et React (#4) ne sont pas encore
+> installés.
 
 ## Suivi du projet
 
