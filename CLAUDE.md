@@ -19,12 +19,13 @@ Application web qui remplace un ancien outil Excel de gestion de craft Dofus
 
 ## Stack technique (ne pas dévier sans demander)
 
-- Backend : PHP 8.3, Symfony 7, **API Platform**, Doctrine ORM, PostgreSQL 16
-- Auth : JWT via LexikJWTAuthenticationBundle
-- Frontend : React 18 + TypeScript + Vite, TanStack Query, React Router,
-  TailwindCSS
-- Infra : Docker Compose (php-fpm, nginx, postgres, node)
-- Tests : PHPUnit (backend), Vitest/React Testing Library (frontend)
+- Backend : PHP 8.4, Symfony 7.4 LTS, **API Platform 5**, Doctrine ORM 3,
+  PostgreSQL 18
+- Auth : JWT via LexikJWTAuthenticationBundle 3
+- Frontend : React 19 + TypeScript 7 + Vite 8, TanStack Query 5,
+  React Router 8, TailwindCSS 4
+- Infra : Docker Compose (php-fpm, nginx 1.30, postgres, node 24 LTS)
+- Tests : PHPUnit 13 (backend), Vitest 5/React Testing Library (frontend)
 
 ## Structure du dépô
 /backend -> Symfony + API Platform (API REST/JSON-LD)

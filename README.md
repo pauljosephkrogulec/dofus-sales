@@ -12,12 +12,12 @@ Mineur, Pêcheur), qui remplace un ancien outil Excel.
 
 ## Stack
 
-| Partie   | Technologies                                                        |
-|----------|---------------------------------------------------------------------|
-| Backend  | PHP 8.3, Symfony 7, API Platform, Doctrine ORM, PostgreSQL 16, JWT  |
-| Frontend | React 18, TypeScript, Vite, TanStack Query, React Router, Tailwind  |
-| Infra    | Docker Compose (php-fpm, nginx, postgres, node)                     |
-| Tests    | PHPUnit, Vitest + React Testing Library                             |
+| Partie   | Technologies                                                                        |
+|----------|-------------------------------------------------------------------------------------|
+| Backend  | PHP 8.4, Symfony 7.4 LTS, API Platform 5, Doctrine ORM 3, PostgreSQL 18, JWT        |
+| Frontend | React 19, TypeScript 7, Vite 8, TanStack Query 5, React Router 8, Tailwind 4        |
+| Infra    | Docker Compose (php-fpm, nginx 1.30, postgres, node 24 LTS)                         |
+| Tests    | PHPUnit 13, Vitest 5 + React Testing Library                                        |
 
 ## Structure
 
@@ -37,10 +37,10 @@ docker compose up -d --build
 
 | Service    | Rôle                              | Accès                   |
 |------------|-----------------------------------|-------------------------|
-| `database` | PostgreSQL 16                     | interne (port 5432)     |
-| `backend`  | PHP 8.3 FPM + Composer (Symfony)  | via nginx               |
+| `database` | PostgreSQL 18                     | interne (port 5432)     |
+| `backend`  | PHP 8.4 FPM + Composer (Symfony)  | via nginx               |
 | `nginx`    | Serveur web de l'API              | http://localhost:8080   |
-| `frontend` | Node 22, serveur de dev Vite      | http://localhost:5173   |
+| `frontend` | Node 24, serveur de dev Vite      | http://localhost:5173   |
 
 Les identifiants Postgres valent `app` par défaut ; ils se surchargent avec
 les variables `POSTGRES_DB`, `POSTGRES_USER` et `POSTGRES_PASSWORD` (fichier
