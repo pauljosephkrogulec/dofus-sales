@@ -46,7 +46,16 @@ Les identifiants Postgres valent `app` par défaut ; ils se surchargent avec
 les variables `POSTGRES_DB`, `POSTGRES_USER` et `POSTGRES_PASSWORD` (fichier
 `.env` à la racine, ignoré par git).
 
-> 🚧 Sprint 0 en cours : Doctrine (#5) et la CI (#6) restent à faire.
+## Intégration continue
+
+GitHub Actions (`.github/workflows/ci.yml`) tourne sur chaque push sur `main`
+et chaque pull request :
+
+- **Backend** : `composer validate`, lint PHP/YAML/Twig/conteneur, migrations
+  et validation du schéma Doctrine (Postgres 18), warmup du cache prod
+- **Frontend** : `npm ci`, `npm run lint` (oxlint), `npm run build` (tsc + Vite)
+- **Docker** : `docker compose up --build`, puis vérifie que l'API
+  (`:8080/api`) et le frontend (`:5173`) répondent
 
 ## Suivi du projet
 

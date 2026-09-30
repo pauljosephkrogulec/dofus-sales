@@ -9,13 +9,13 @@ Règle : déplacer une carte AVANT de commencer à coder dessus.
 
 ## À faire
 
-- [#6](https://github.com/pauljosephkrogulec/dofus-sales/issues/6) Mettre en place une CI GitHub Actions (lint + build backend et frontend)
 
 ## En cours
 
 
 ## En revue
 
+- [#6](https://github.com/pauljosephkrogulec/dofus-sales/issues/6) Mettre en place une CI GitHub Actions (lint + build backend et frontend)
 - [#5](https://github.com/pauljosephkrogulec/dofus-sales/issues/5) Connecter Doctrine à Postgres, première migration vide
 - [#4](https://github.com/pauljosephkrogulec/dofus-sales/issues/4) Installer React + Vite + TypeScript + Tailwind, vérifier le démarrage
 - [#3](https://github.com/pauljosephkrogulec/dofus-sales/issues/3) Installer Symfony 7 + API Platform, vérifier qu'ils démarrent (/api répond)

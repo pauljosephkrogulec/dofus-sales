@@ -1,0 +1,122 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend (lint + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      database:
+        image: postgres:18-alpine
+        env:
+          POSTGRES_DB: app
+          POSTGRES_USER: app
+          POSTGRES_PASSWORD: app
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U app -d app"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql://app:app@127.0.0.1:5432/app?serverVersion=18&charset=utf8
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_pgsql, intl, zip
+          tools: composer:v2
+          coverage: none
+
+      - name: Valider composer.json / composer.lock
+        run: composer validate --strict --no-check-publish
+
+      - uses: ramsey/composer-install@v3
+        with:
+          working-directory: backend
+
+      - name: Lint PHP (syntaxe)
+        run: find src config public migrations -name '*.php' -print0 | xargs -0 -n1 php -l
+
+      - name: Lint YAML
+        run: bin/console lint:yaml config --parse-tags
+
+      - name: Lint Twig
+        run: bin/console lint:twig templates
+
+      - name: Lint conteneur de services
+        run: bin/console lint:container
+
+      - name: Migrations Doctrine
+        run: bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+
+      - name: Schéma Doctrine synchronisé avec le mapping
+        run: bin/console doctrine:schema:validate
+
+      - name: Build (warmup du cache prod)
+        run: bin/console cache:warmup
+        env:
+          APP_ENV: prod
+          APP_DEBUG: '0'
+
+  frontend:
+    name: Frontend (lint + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: Lint (oxlint)
+        run: npm run lint
+
+      - name: Build (tsc + vite)
+        run: npm run build
+
+  docker:
+    name: Docker Compose (smoke test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: docker compose up
+        run: docker compose up -d --build --wait --wait-timeout 180
+
+      # Composer / npm install tournent au 1er démarrage des conteneurs :
+      # on réessaie jusqu'à ce que les deux services répondent.
+      - name: L'API répond (nginx -> php-fpm)
+        run: curl --fail --silent --show-error --retry 40 --retry-delay 5 --retry-all-errors -o /dev/null http://localhost:8080/api
+
+      - name: Le frontend répond (Vite)
+        run: curl --fail --silent --show-error --retry 40 --retry-delay 5 --retry-all-errors -o /dev/null http://localhost:5173/
+
+      - name: Logs en cas d'échec
+        if: failure()
+        run: docker compose logs --no-color
+
+      - name: docker compose down
+        if: always()
+        run: docker compose down -v
