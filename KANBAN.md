@@ -15,6 +15,7 @@ Règle : déplacer une carte AVANT de commencer à coder dessus.
 
 ## En revue
 
+- [#7](https://github.com/pauljosephkrogulec/dofus-sales/issues/7) Sprint 0 - Definition of Done : `docker compose up` démarre tout sans erreur
 - [#6](https://github.com/pauljosephkrogulec/dofus-sales/issues/6) Mettre en place une CI GitHub Actions (lint + build backend et frontend)
 - [#5](https://github.com/pauljosephkrogulec/dofus-sales/issues/5) Connecter Doctrine à Postgres, première migration vide
 - [#4](https://github.com/pauljosephkrogulec/dofus-sales/issues/4) Installer React + Vite + TypeScript + Tailwind, vérifier le démarrage
