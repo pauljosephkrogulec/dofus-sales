@@ -46,8 +46,7 @@ Les identifiants Postgres valent `app` par défaut ; ils se surchargent avec
 les variables `POSTGRES_DB`, `POSTGRES_USER` et `POSTGRES_PASSWORD` (fichier
 `.env` à la racine, ignoré par git).
 
-> 🚧 Sprint 0 en cours : Symfony (#3) et React (#4) ne sont pas encore
-> installés.
+> 🚧 Sprint 0 en cours : Doctrine (#5) et la CI (#6) restent à faire.
 
 ## Suivi du projet
 
